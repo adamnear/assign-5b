@@ -21,6 +21,9 @@ function Board({ xIsNext, squares, onPlay }) {
     let status;
     if (winner) {
         status = 'Winner: ' + winner;
+    } else if (squares.every((square) => square)) {
+        // Check if all squares are filled and there's no winner
+        status = 'It\'s a Draw!';
     } else {
         status = 'Next player: ' + (xIsNext ? 'X' : 'O');
     }

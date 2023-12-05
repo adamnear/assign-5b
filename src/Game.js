@@ -1,12 +1,18 @@
 // Game.js
 import React, { useState } from 'react';
-import Board from './Board'; // Import Board component
+import MoveCounter from './MoveCounter'
+import Board from './Board';
+import calculateWinner from './CalculateWinner';
 
 export default function Game() {
     const [history, setHistory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
     const xIsNext = currentMove % 2 === 0;
     const currentSquares = history[currentMove];
+
+    // Track the number of moves for each player
+    const xMoves = history.filter((squares, move) => move % 2 === 0).length;
+    const oMoves = history.filter((squares, move) => move % 2 !== 0).length;
 
     function handlePlay(nextSquares) {
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -38,6 +44,7 @@ export default function Game() {
                 <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
             </div>
             <div className="game-info">
+                <MoveCounter xMoves={xMoves} oMoves={oMoves} currentMove={currentMove} />
                 <ol>{moves}</ol>
             </div>
         </div>
